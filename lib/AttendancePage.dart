@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dashboard/LogPage.dart';
+import 'package:dashboard/main.dart';
 import 'RegisterPage.dart';
 import 'HomePage.dart';
 
@@ -55,7 +55,7 @@ class _AttendancePageState extends State<AttendancePage> {
                     ),
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => LogPage()));
+                          MaterialPageRoute(builder: (_) => LoginDemo()));
                     },
                     child: Text("LOG OUT")),
               ),

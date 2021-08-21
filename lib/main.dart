@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'HomePage.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,6 +22,33 @@ class LoginDemo extends StatefulWidget {
 }
 
 class _LoginDemoState extends State<LoginDemo> {
+  GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  GlobalKey<FormState> formkey2 = GlobalKey<FormState>();
+  TextEditingController _emailc = TextEditingController();
+  TextEditingController _passc = TextEditingController();
+  var email;
+  var pass;
+  String e = "danchg57@gmaoil.com";
+  String p = "1234";
+  void validate() {
+    if (formkey.currentState!.validate()) {
+      if (email == e) {
+        if (pass == p) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (_) => HomePage()));
+        }
+      }
+    } else {
+      print("not validated");
+    }
+  }
+
+  void validate2() {
+    if (formkey2.currentState!.validate()) {
+      Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
+    } else {}
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,29 +74,50 @@ class _LoginDemoState extends State<LoginDemo> {
             Padding(
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Email',
-                    hintText: 'Enter valid Admin ID'),
-              ),
+              child: Form(
+                  autovalidateMode: AutovalidateMode.always,
+                  key: formkey2,
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        controller: _emailc,
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.email),
+                            border: OutlineInputBorder(),
+                            labelText: "E-mail"),
+                        validator: MultiValidator([
+                          RequiredValidator(errorText: "Required"),
+                          EmailValidator(errorText: "Not a valid E-mail"),
+                        ]),
+                      )
+                    ],
+                  )),
             ),
             Padding(
               padding: const EdgeInsets.only(
                   left: 15.0, right: 15.0, top: 15, bottom: 0),
               //padding: EdgeInsets.symmetric(horizontal: 15),
-              child: TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password',
-                    hintText: 'Enter secure password'),
-              ),
+              child: Form(
+                  autovalidateMode: AutovalidateMode.always,
+                  key: formkey,
+                  child: Column(
+                    children: <Widget>[
+                      TextFormField(
+                        obscureText: true,
+                        controller: _passc,
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.lock),
+                            border: OutlineInputBorder(),
+                            labelText: "Password",
+                            hintText: "Enter Secure Password"),
+                        validator: RequiredValidator(errorText: "Required"),
+                      )
+                    ],
+                  )),
             ),
+            // ignore: deprecated_member_use
             FlatButton(
-              onPressed: () {
-                //TODO FORGOT PASSWORD SCREEN GOES HERE
-              },
+              onPressed: () {},
               child: Text(
                 'Forgot Password',
                 style: TextStyle(color: Colors.blue, fontSize: 15),
@@ -79,10 +128,13 @@ class _LoginDemoState extends State<LoginDemo> {
               width: 250,
               decoration: BoxDecoration(
                   color: Colors.blue, borderRadius: BorderRadius.circular(20)),
+              // ignore: deprecated_member_use
               child: FlatButton(
                 onPressed: () {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => HomePage()));
+                  print(email = _emailc.text);
+                  print(pass = _passc.text);
+                  validate();
+                  validate2();
                 },
                 child: Text(
                   'Login',
