@@ -28,25 +28,39 @@ class _LoginDemoState extends State<LoginDemo> {
   TextEditingController _passc = TextEditingController();
   var email;
   var pass;
-  String e = "danchg57@gmaoil.com";
+  String e = "d@g.c";
   String p = "1234";
+
   void validate() {
     if (formkey.currentState!.validate()) {
-      if (email == e) {
-        if (pass == p) {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (_) => HomePage()));
-        }
+      if ((email == e) && (pass == p)) {
+        Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
       }
     } else {
+      final snackBar = SnackBar(
+        content: Text('Enter Correct Details!'),
+        backgroundColor: Colors.red,
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       print("not validated");
     }
   }
 
-  void validate2() {
+  void validate2(BuildContext context) {
     if (formkey2.currentState!.validate()) {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
-    } else {}
+      if ((email == e) && (pass == p)) {
+        Navigator.push(context, MaterialPageRoute(builder: (_) => HomePage()));
+      } else {
+        final snackBar = SnackBar(
+          content: Text('Enter Correct Details!'),
+          backgroundColor: Colors.red,
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        print("not validated");
+      }
+    }
   }
 
   @override
@@ -56,6 +70,7 @@ class _LoginDemoState extends State<LoginDemo> {
       appBar: AppBar(
         title: Text("Access Control Admin Login Page"),
       ),
+      drawer: Drawer(),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -134,7 +149,7 @@ class _LoginDemoState extends State<LoginDemo> {
                   print(email = _emailc.text);
                   print(pass = _passc.text);
                   validate();
-                  validate2();
+                  validate2(context);
                 },
                 child: Text(
                   'Login',

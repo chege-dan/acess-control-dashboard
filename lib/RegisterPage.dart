@@ -1,6 +1,7 @@
 import 'package:dashboard/main.dart';
 import 'package:flutter/material.dart';
 import 'HomePage.dart';
+import 'RegisteringPage.dart';
 import 'AttendancePage.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -68,7 +69,10 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (_) => RegisteringPage()));
+          },
           child: Icon(Icons.add),
         ));
   }
